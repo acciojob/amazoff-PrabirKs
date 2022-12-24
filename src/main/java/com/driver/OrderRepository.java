@@ -9,6 +9,8 @@ import java.util.*;
 @Component
 public class OrderRepository {
     private HashMap<String,Order> OrderDb ;
+
+    private HashMap<String,String> orderPartnerDB ;
     private HashMap<String,DeliveryPartner> DeliveryPartnerDb ;
     private HashMap<String, List<String>> DeliveryPartnerOrderDb ;
 
@@ -32,13 +34,17 @@ public class OrderRepository {
         List<String> OrderList = new ArrayList<>() ;
         //check whether the order and partner present in their db or not
         if(OrderDb.containsKey(orderId) && DeliveryPartnerDb.containsKey(partnerId)){
-            if(DeliveryPartnerOrderDb.containsKey(partnerId)){
-                OrderList = DeliveryPartnerOrderDb.get(partnerId) ;
+            if(!orderPartnerDB.containsKey(orderId)) {
+                if (DeliveryPartnerOrderDb.containsKey(partnerId)) {
+                    OrderList = DeliveryPartnerOrderDb.get(partnerId);
+                }
+                OrderList.add(orderId);
+                DeliveryPartner partner = DeliveryPartnerDb.get(partnerId);
+                partner.setNumberOfOrders(partner.getNumberOfOrders() + 1);
+                DeliveryPartnerOrderDb.put(partnerId, OrderList);
+
+                orderPartnerDB.put(orderId,partnerId) ;
             }
-            OrderList.add(orderId) ;
-            DeliveryPartner partner = DeliveryPartnerDb.get(partnerId) ;
-            partner.setNumberOfOrders(partner.getNumberOfOrders() + 1);
-            DeliveryPartnerOrderDb.put(partnerId,OrderList) ;
         }
     }
 

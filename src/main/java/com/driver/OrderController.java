@@ -107,7 +107,7 @@ public class OrderController {
         return new ResponseEntity<>(countOfOrders, HttpStatus.CREATED);
     }
 
-    @GetMapping("/get-last-delivery-time/{partnerId}")
+    @GetMapping("/get-last-delivery-time/{time}/{partnerId}")
     public ResponseEntity<String> getLastDeliveryTimeByPartnerId(@PathVariable String partnerId){
         String time = null;
 
