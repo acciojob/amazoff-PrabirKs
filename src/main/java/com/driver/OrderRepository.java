@@ -17,6 +17,7 @@ public class OrderRepository {
     public OrderRepository(){
         this.OrderDb = new HashMap<String,Order>() ;
         this.DeliveryPartnerDb = new HashMap<String,DeliveryPartner>() ;
+        this.orderPartnerDB = new HashMap<String,String>() ;
         this.DeliveryPartnerOrderDb = new HashMap<String,List<String>>() ;
     }
 
@@ -142,9 +143,11 @@ public class OrderRepository {
     //delete partner
     public void deletePartner(String partnerId){
         DeliveryPartnerOrderDb.remove(partnerId) ;
+        DeliveryPartnerDb.remove(partnerId) ;
     }
     //delete partner
     public void deleteOrder(String orderId){
+        OrderDb.remove(orderId) ;
         Set<String> partners = DeliveryPartnerOrderDb.keySet() ;
         for(String partnerId : partners){
             List<String> orders = DeliveryPartnerOrderDb.get(partnerId) ;
